@@ -1,0 +1,244 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+
+<script>
+
+
+
+
+//Definimos las variables:
+var y=0;           
+        var x=0;
+        var controlY=1;  
+        var controlX=1;  
+        var velocidad=5;
+ 
+        // Cada 6 mili-segundos se va a ejecutar la función mover que comprueba
+                // las colisiones de la pelota
+        var intervalo=setInterval("mover()",10);
+ 
+        function mover(){
+            //Eje Y
+            if(controlY==1){ 
+                y+=velocidad;
+            }else{         
+                y-=velocidad;
+            }
+            if(y<=0){
+                controlY=1;
+                y=0;
+            }else if(y>=document.getElementById("lienzo").offsetHeight-22){ 
+// Esto significa si y es mayor o igual a la altura que tiene el lienzo menos el tamaño de la imagen
+ 
+                 controlY=0;
+                y=document.getElementById("lienzo").offsetHeight-22;
+            }
+ 
+            //Eje X
+            if(controlX==1){ 
+                x+=velocidad;
+            }else{         
+                x-=velocidad;
+            }
+            if(x<=0){
+                controlX=1;
+                x=0;
+            }else if(x>=document.getElementById("lienzo").offsetWidth-22){
+                controlX=0;
+                x=document.getElementById("lienzo").offsetWidth-22;
+            }
+			
+            document.getElementById("pelota").style.top=String(y)+"px";
+		
+			document.getElementById("pelota").style.left=String(x)+"px";
+		
+			
+        }
+ 
+       
+
+
+
+$(document).ready(function(){            
+    $(document).keydown(function (e) {
+        var keyCode = e.keyCode || e.which,
+        arrow = {left: 37, up: 38, right: 39, down: 40 };
+
+        switch (keyCode) {
+
+            case arrow.left: 
+                
+				var elemento = $('#objeto');
+				var posicion = elemento.position();
+				
+				if(posicion.left < -470){
+				
+					
+					break;
+				}else{
+					$('#objeto').finish().animate({"left": "-=50px"}, "fast");
+					$('#objeto').finish().animate({
+					left: "-=10"
+				});
+				}
+				
+			
+
+            break;
+
+            case arrow.right: 
+                
+				var elemento = $('#objeto');
+				var posicion = elemento.position();
+				
+				if(posicion.left > 450){
+					
+				
+					break;
+				}else{
+					$('#objeto').finish().animate({"left": "+=50px"}, "fast");
+					$('#objeto').finish().animate({
+					left: "+=10"
+				});
+				}
+				
+				
+            break;
+        }
+    });
+});
+
+
+
+
+
+
+
+
+
+
+	function CrearBloques(){
+
+	var array = [
+	[{life:1},{life:1},{life:1},{life:1},{life:1},{life:1},{life:1},{life:1}],
+	[{life:1},{life:1},{life:1},{life:1},{life:1},{life:1},{life:1},{life:1}],
+	[{life:1},{life:1},{life:1},{life:1},{life:1},{life:1},{life:1},{life:1}],
+	[{life:1},{life:1},{life:1},{life:1},{life:1},{life:1},{life:1},{life:1}],
+	[{life:1},{life:1},{life:1},{life:1},{life:1},{life:1},{life:1},{life:1}],
+	[{life:1},{life:1},{life:1},{life:1},{life:1},{life:1},{life:1},{life:1}],
+	[{life:1},{life:1},{life:1},{life:1},{life:1},{life:1},{life:1},{life:1}],
+	[{life:1},{life:1},{life:1},{life:1},{life:1},{life:1},{life:1},{life:1}]
+	
+	];
+
+		var contador=1;
+
+	for(var i=0; i<=array.length; i++){
+		$('.blocks_container').append('<div>');
+		
+
+			for(var j=0; j<array.length; j++){
+
+				if(i==1){
+				
+					$('.blocks_container').append('<div class="block" style="background-color:red">'+ array[i][j].life +'</div>');
+
+				}
+
+
+				if(i==2){
+					
+					$('.blocks_container').append('<div class="block" style="background-color:orange">'+ array[i][j].life +'</div>');
+
+				}
+
+				if(i==3){
+					
+					$('.blocks_container').append('<div class="block" style="background-color:yellow">'+ array[i][j].life +'</div>');
+
+				}
+				
+			}
+		
+		}
+
+		$('.blocks_container').append('<div>');
+		$('.barrera').append('<img src="./barra.png" class="barra" id="objeto">');
+		$('#lienzo').append('<img src="./pelota.png" id="pelota">');
+	console.log(array);
+	
+	}	
+</script>
+
+
+
+<style>
+
+#lienzo{
+	width:1350px;
+	height:600px;
+
+}
+
+#pelota{
+	position: absolute;
+	height: 30px;
+	width: 30px;
+	
+
+
+
+}
+
+
+
+
+.blocks_container{
+	margin-top: 20px;
+	margin-left: 30px;
+}
+
+.block{
+
+	height:30px;
+	width: 150px;
+	display:inline-block;
+	border: 1px solid black;
+	margin-top: 2px;
+	margin-right:10px;
+	text-align:center;
+	
+	
+}
+
+.barra{
+	display:inline-block;
+	margin-top:360px;
+	margin-left:560px;
+	height:150px;
+	width:300px;
+	position:absolute;
+}
+
+
+
+</style>
+</head>
+<body onload="CrearBloques();"  onkeypress="desplazar(event)">
+
+	<div id="lienzo">
+
+	
+	<div class="blocks_container"></div>
+
+	<div class="barrera"></div>
+
+	</div>
+
+</body>
+</html>
